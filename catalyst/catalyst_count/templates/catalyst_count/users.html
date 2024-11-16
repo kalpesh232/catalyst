@@ -1,0 +1,38 @@
+{% extends 'catalyst_count/base.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<div class="users-container mt-5">
+    <h2>Users</h2>
+    <div class="action-bar">
+        <a href="{% url 'signup_view' %}" class="btn btn-primary">Add User</a>
+    </div>
+    <table class="table table-striped mt-2">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.is_active|yesno:"Active,Inactive" }}</td>  <!-- Show "Active" or "Inactive" based on is_active -->
+                <td>
+                    <a href="{% url 'delete_user' user.id %}" class="btn btn-danger btn-sm">❌</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No users found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

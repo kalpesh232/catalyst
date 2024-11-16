@@ -1,0 +1,146 @@
+
+body {
+    background-color: #343a40;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.card-body {
+    background-color: #f8f9fa; 
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/* SignUp  */
+/* style.css */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.signup-container {
+    
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.signup-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.signup-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.signup-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.signup-form input,
+.signup-form select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.signup-form input:focus,
+.signup-form select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* home page */
+/* Home Page Styling */
+
+.home-container {
+    text-align: center; /* Align text to the center */
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;  /* Stack buttons vertically */
+    justify-content: center; /* Vertically center buttons within the container */
+    align-items: center;     /* Horizontally center the buttons */
+    gap: 20px;               /* Add space between buttons */
+    margin-top: 200px;
+}
+
+.btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+@media (max-width: 768px) {
+    .button-container {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+    }
+}

@@ -1,0 +1,16 @@
+{% extends 'catalyst_count/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block navbar %}
+<!-- Optional navbar here, or leave empty -->
+{% endblock %}
+
+{% block content %}
+<div class="home-container mt-5">
+    <div class="button-container">
+        <a href="{% url 'login_page' %}" class="btn btn-lg btn-primary">Login</a>
+        <a href="{% url 'signup_view' %}" class="btn btn-lg btn-success">Sign Up</a>
+    </div>
+</div>
+{% endblock %}
