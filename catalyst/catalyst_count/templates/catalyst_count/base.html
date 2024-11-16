@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Company Count Application{% endblock %}</title>
+
+    <!-- Include your global CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_head %}
+    <!-- Additional head content like external scripts or styles -->
+    {% endblock %}
+</head>
+
+<body>
+    <header>
+        <!-- Your header with navigation links -->
+        {% block navbar %}
+        <!-- Default navbar that will be shown in other templates -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Company Count</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'upload_form' %}">Upload Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'query_builder' %}">Query Builder</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users' %}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        {% endblock %}
+
+
+        <div class="container">
+            {% block content %}
+            <!-- Page-specific content will go here -->
+            {% endblock %}
+        </div>
+
+
+
+        <!-- Include any global JavaScript -->
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+
+        {% block extra_scripts %}
+        <!-- Additional JavaScript for specific pages -->
+        {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+{% extends 'catalyst_count/base.html' %}
+
+{% block title %}Query Builder{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: 50px;">
+    <h2>Query Builder</h2>
+    <form id="query-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="industry">Industry</label>
+            <select id="industry" class="form-control">
+                <option value="">Select Industry</option>
+                {% for industry in industries %}
+                <option value="{{ industry }}">{{ industry }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="year_founded">Year Founded</label>
+            <select id="year_founded" class="form-control">
+                <option value="">Select Year Founded</option>
+                {% for year in years_founded %}
+                <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" class="form-control">
+                <option value="">Select Country</option>
+                {% for country in countries %}
+                <option value="{{ country }}">{{ country }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="state">State</label>
+            <select id="state" class="form-control" disabled>
+                <option value="">Select State</option>
+                <!-- States will be populated dynamically -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="city">City</label>
+            <select id="city" class="form-control" disabled>
+                <option value="">Select City</option>
+                <!-- Cities will be populated dynamically -->
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2">Query Data</button>
+        <button type="reset" class="btn btn-secondary mt-2" id="reset-btn">Reset</button>
+    </form>
+
+    <div id="result" style="margin-top: 30px;">
+        <h3>Results:</h3>
+        <p id="record-count">No records yet.</p>
+        <ul id="result-list"></ul>
+    </div>
+</div>
+
+<script>
+
+    // state and city start
+    // Fetch states based on selected country
+    document.getElementById('country').addEventListener('change', function () {
+        const country = this.value;
+        console.log('country : ', country)
+
+        if (country) {
+            fetch(`/api/get-states/${country}/`)
+                .then(response => response.json())
+                .then(data => {
+                    const stateSelect = document.getElementById('state');
+                    stateSelect.innerHTML = '<option value="">Select State</option>';
+                    data.states.forEach(state => {
+                        let option = document.createElement('option');
+                        option.value = state;
+                        option.innerText = state;
+                        stateSelect.appendChild(option);
+                    });
+                    stateSelect.disabled = false;
+                })
+                .catch(error => console.log('Error fetching states:', error));
+        }
+    });
+
+    // Fetch cities based on selected state
+    document.getElementById('state').addEventListener('change', function () {
+        const state = this.value;
+
+        if (state) {
+            fetch(`/api/get-cities/${state}/`)
+                .then(response => response.json())
+                .then(data => {
+                    const citySelect = document.getElementById('city');
+                    citySelect.innerHTML = '<option value="">Select City</option>';
+                    data.cities.forEach(city => {
+                        let option = document.createElement('option');
+                        option.value = city;
+                        option.innerText = city;
+                        citySelect.appendChild(option);
+                    });
+                    citySelect.disabled = false;
+                })
+                .catch(error => console.log('Error fetching cities:', error));
+        }
+    });
+    // state and city end 
+
+    document.getElementById('query-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var filters = {
+            industry: document.getElementById('industry').value,
+            year_founded: document.getElementById('year_founded').value,
+            country: document.getElementById('country').value,
+            state: document.getElementById('state').value,
+            city: document.getElementById('city').value,
+        };
+
+        fetch('/api/query/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(filters)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Query Data:', data);
+                if (data.count > 0) {
+                    document.getElementById('record-count').innerText = `Found ${data.count} record(s)`;
+                    let resultList = document.getElementById('result-list');
+                    resultList.innerHTML = '';
+                    data.results.forEach(record => {
+                        let listItem = document.createElement('li');
+                        listItem.innerText = `${record.name}, ${record.industry}, ${record.country},${record.state},${record.city}`;
+                        resultList.appendChild(listItem);
+                    });
+                } else {
+                    document.getElementById('record-count').innerText = 'No records found.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    // Reset the form fields
+    document.getElementById('reset-btn').addEventListener('click', function () {
+        document.getElementById('query-form').reset();
+        document.getElementById('result-list').innerHTML = '';
+        document.getElementById('record-count').innerText = 'No records yet.';
+    });
+</script>
+
+{% endblock %}
